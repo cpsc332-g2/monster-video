@@ -2,15 +2,16 @@ from django.db import models
 
 class Customer(models.Model):
     name = models.CharField(max_length=80)
+    street = models.CharField(max_length=50)
     city = models.CharField(max_length=30)
-    state = models.CharField(max_length=15)
+    state = models.CharField(max_length=25)
     zipCode = models.IntegerField()
-    phone = models.IntegerField()
+    phone = models.FloatField()
 
 class Appraisal(models.Model):
     customer = models.ForeignKey(Customer, on_delete = models.CASCADE)
 
-    location = models.CharField(max_length=20)
+    location = models.CharField(max_length=30)
     #maxSize = models.IntegerField()
     cableRun = models.BooleanField(default=False)
     comments = models.CharField(max_length=150)
@@ -20,16 +21,6 @@ class Proposal(models.Model):
 
     date = models.DateField(auto_now=False, auto_now_add=True)
     description = models.CharField(max_length=200)
-
-class Warranty(models.Model):
-    customer = models.ForeignKey(Customer, on_delete = models.CASCADE)
-
-    start_date = models.DateField(auto_now=False, auto_now_add=True)
-    title = models.CharField(max_length=30)
-    mfg_warranty = models.IntegerField(default=2)  #mfg_warranty is manufacturer warranty
-    add_warranty = models.IntegerField(default=0)
-    #coverage = models.BooleanField()
-    cost = models.FloatField(default=0.0)
 
 class Installation(models.Model):
     proposal = models.ForeignKey(Proposal, on_delete = models.CASCADE)
@@ -49,17 +40,21 @@ class Employee(models.Model):
     name = models.CharField(max_length=40)
     department = models.CharField(max_length=40)
 
-class Speakers(models.Model):
+class Item(models.Model): 
     installation = models.ForeignKey(Installation, on_delete = models.CASCADE)
 
+    item_category = models.CharField(max_length=15,default="AVComponents")
+    item_name = models.CharField(max_length=30)
+    item_cost = models.FloatField(default=0.0)
+    item_quanity = models.IntegerField()
+
+class Speakers(Item):
     location = models.CharField(max_length=80)
     cost = models.FloatField(default=0.0)
     labor = models.FloatField(default=0.0)
     total = models.FloatField(default=0.0)
 
-class AVComponents(models.Model):
-    installation = models.ForeignKey(Installation, on_delete = models.CASCADE)
-
+class AVComponents(Item):
     name = models.CharField(max_length=20)
     description = models.CharField(max_length=80)
     sale = models.FloatField(default=0.0)
@@ -67,17 +62,16 @@ class AVComponents(models.Model):
     quantity = models.IntegerField(default=0)
     subtotal = models.FloatField(default=0.0)
 
-class Electronics(models.Model):
-    installation = models.ForeignKey(Installation, on_delete = models.CASCADE)
-
+class Electronics(Item):
     labor = models.FloatField(default=0.0)
     total = models.FloatField(default=0.0)
 
-class Item(models.Model):
-    installation = models.ForeignKey(Installation, on_delete = models.CASCADE)
-    warranty = models.OneToOneField(Warranty, on_delete = models.CASCADE)
+class Warranty(models.Model):
+    item = models.ForeignKey(Item, on_delete = models.CASCADE)
 
-    item_category = models.CharField(max_length=15,default="AVComponents")
-    item_name = models.CharField(max_length=30)
-    item_cost = models.FloatField(default=0.0)
-    item_quanity = models.IntegerField()
+    start_date = models.DateField(auto_now=False, auto_now_add=True)
+    title = models.CharField(max_length=30)
+    mfg_warranty = models.IntegerField(default=2)  #mfg_warranty is manufacturer warranty
+    add_warranty = models.IntegerField(default=0)
+    #coverage = models.BooleanField()
+    cost = models.FloatField(default=0.0)
