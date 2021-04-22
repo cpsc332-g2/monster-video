@@ -1,0 +1,19 @@
+<h1>Customer Detail Page</h1>
+{% if customer %}
+    <li>
+        {{ customer.name }}
+        {{ customer.street }}
+        {{ customer.city }}
+        {{ customer.state }}
+        {{ customer.zipCode }}
+        {{ customer.phone }}
+    </li>
+    
+    <li>
+        
+    </li>
+
+
+{% else %}
+    <p>No customer data available.</p>
+{% endif %}
