@@ -65,5 +65,4 @@ class Warranty(models.Model):
     title = models.CharField(max_length=30)
     mfg_warranty = models.IntegerField(default=2)  #mfg_warranty is manufacturer warranty
     add_warranty = models.IntegerField(default=0)
-    #coverage = models.BooleanField()
     cost = models.FloatField(default=0.0)

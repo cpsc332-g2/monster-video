@@ -11,8 +11,13 @@ def details(request, customer_id):
     customer = get_object_or_404(Customer, pk=customer_id)
     context = { 
         'customer': customer,
-
     }
+    appraisal_list = Appraisal.objects.all()
+    if(appraisal_list):
+        for appraisal in appraisal_list:
+            if appraisal.customer_id == customer_id:
+                context['appraisal'] = appraisal
+
     return render(request, 'invoices/customer.html', context)
 
 def add_customer(request):
@@ -28,3 +33,16 @@ def add_customer(request):
         return redirect('/invoices')
     else:
         return redirect('/invoices')
+
+def add_appraisal(request, customer_id):
+    if request.method=="POST":
+        customer = get_object_or_404(Customer, pk=customer_id)
+        appraisal = Appraisal()
+        appraisal.customer = customer
+        appraisal.location = request.POST.get('location')
+        appraisal.cableRun = request.POST.get('cableRun')
+        appraisal.comments = request.POST.get('comments')
+        appraisal.save()
+        return redirect(f"/invoices/{customer_id}")
+    else:
+        return redirect(f"/invoices/{customer_id}")
