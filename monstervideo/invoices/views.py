@@ -115,6 +115,9 @@ def add_item(request):
     else:
         return redirect('/invoices')
  
+#Speaker, AVComponents, and elctronics inherit attributes from class item (Polymorphism/Inheritance)
+#How to implement?
+
 #def add_speakers(request):
 #    if request.method=="POST":
 #        speakers = Speakers()
