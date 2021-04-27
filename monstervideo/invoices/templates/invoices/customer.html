@@ -51,27 +51,332 @@
                     <input type="text" placeholder="Comments" name="comments">
                     <button type"submit">Submit</button>
                 </form>-->
+
+                {% if proposal %}
+                    <center><h2>Proposal</h2></center>
+                    <li>
+                        {{ proposal.date }}
+                        {{ proposal.description }}
+                    </li>
+                {% else %}
+                    <h2>Add a Proposal</h2>
+                        <!--TODO FOR ALL ELSE STATEMENTS (DONE/CHECK)-->
+                        <form class="row g-3 needs-validation" action="{% url 'add_proposal' customer.id %}" method="post" novalidate>
+                            {% csrf_token %}
+                            <div class="col-md-4">
+                                <label for="validationCustom01" class="form-label">Date</label>
+                                <input type="text" class="form-control" id="validationCustom01" placeholder= "00/00/0000" name="date"
+                                    required>
+                            </div>
+                            <!-- <div class="col-md-4">
+                                <label for="validationCustom02" class="form-label">Cable run needed? ("True" or "False")</label>
+                                <input type="text" class="form-control" id="validationCustom02" name="cableRun" placeholder="False" required> -->
+                            <!-- </div> -->
+                            <div class="col-md-4">
+                                <label for="validationCustomUsername" class="form-label">Description</label>
+                                <div class="input-group has-validation">
+                                    <input type="text" class="form-control" id="validationCustomUsername" name="description" placeholder="description"
+                                        aria-describedby="inputGroupPrepend" required>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <button class="btn btn-primary" type="submit">Add Proposal</button>
+                            </div>
+                        </form>
+
+            
+                    {% if installation %}
+                        <center><h2>Installation</h2></center>
+                        <li>
+                            {{ installation.date_start }}
+                            {{ installation.date_finish }}
+                            {{ installation.cleanup }}
+                            {{ installation.total_material }}
+                            {{ installation.total_labor }}
+                            {{ installation.total_cost }}
+                            {{ installation.cables_cost }}
+                        </li>
+                    {% else %}
+                        <h2>Add an Installation</h2>
+                        <!--TODO FOR ALL ELSE STATEMENTS (DONE/CHECK)-->
+                        <form class="row g-3 needs-validation" action="{% url 'add_installation' customer.id %}" method="post" novalidate>
+                            {% csrf_token %}
+                            <div class="col-md-4">
+                                <label for="validationCustom01" class="form-label">Start Date</label>
+                                <input type="text" class="form-control" id="validationCustom01" placeholder="00/00/0000" name="date_start" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="validationCustom02" class="form-label">Cleanup required? ("True" or "False")</label>
+                                <input type="text" class="form-control" id="validationCustom02" name="cleanup" placeholder="False" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="validationCustomUsername" class="form-label">Date Finish</label>
+                                <div class="input-group has-validation">
+                                    <input type="text" class="form-control" id="validationCustomUsername" name="date_finish"
+                                        placeholder="description" aria-describedby="inputGroupPrepend" required>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <button class="btn btn-primary" type="submit">Add Installation</button>
+                            </div>
+                        </form>
+            
+                        {% if speakers %}
+                            <center><h2>Speakers</h2></center>
+                            <li>
+                                {{ speakers.total }}
+                                {{ speakers.item_description }}
+                                {{ speakers.item_location }}
+                                {{ speakers.item_name }}
+                                {{ speakers.item_quanity }}
+                                {{ speakers.item_labor_cost }}
+                                {{ speakers.item_cost }}
+                            </li>
+                        {% else %}
+                            <h2>Add Speakers</h2>
+                            <!--TODO FOR ALL ELSE STATEMENTS (DONE/CHECK)-->
+                            <form class="row g-3 needs-validation" action="{% url 'add_speakers' customer.id %}" method="post" novalidate>
+                                {% csrf_token %}
+                                <div class="col-md-4">
+                                    <label for="validationCustom01" class="form-label">Total</label>
+                                    <input type="text" class="form-control" id="validationCustom01" placeholder="0.00" name="total"
+                                        required>
+                                </div>
+                                <!-- <div class="col-md-4">
+                                    <label for="validationCustom02" class="form-label">Cleanup required? ("True" or "False")</label>
+                                    <input type="text" class="form-control" id="validationCustom02" name="cleanup" placeholder="False" required>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="validationCustomUsername" class="form-label">Date Finish</label>
+                                    <div class="input-group has-validation">
+                                        <input type="text" class="form-control" id="validationCustomUsername" name="date_finish"
+                                            placeholder="description" aria-describedby="inputGroupPrepend" required>
+                                    </div> -->
+                                </div>
+                                <div class="col-12">
+                                    <button class="btn btn-primary" type="submit">Add Speakers</button>
+                                </div>
+                            </form>
+
+                            {% if warranty %}
+                                <center><h2>Warranty</h2></center>
+                                <li>
+                                    {{ warranty.start_date }}
+                                    {{ warranty.title }}
+                                    {{ warranty.mfg_warranty }}
+                                    {{ warranty.add_warranty }}
+                                    {{ warranty.cost }}
+
+                                </li>
+                            {% else %}
+                                <h2>Add a Warranty</h2>
+                                <!--TODO FOR ALL ELSE STATEMENTS (FINISH AFTER TITLE)-->
+                                <form class="row g-3 needs-validation" action="{% url 'add_warranty' customer.id %}" method="post" novalidate>
+                                    {% csrf_token %}
+                                    <div class="col-md-4">
+                                        <label for="validationCustom01" class="form-label">Start Date</label>
+                                        <input type="text" class="form-control" id="validationCustom01" placeholder="00/00/0000" name="start_date"
+                                            required>
+                                    </div>
+                                    <!-- <div class="col-md-4">
+                                        <label for="validationCustom02" class="form-label">Cleanup required? ("True" or "False")</label>
+                                        <input type="text" class="form-control" id="validationCustom02" name="cleanup" placeholder="False" required> -->
+                                    <!-- </div> -->
+                                    <div class="col-md-4">
+                                        <label for="validationCustomUsername" class="form-label">Title</label>
+                                        <div class="input-group has-validation">
+                                            <input type="text" class="form-control" id="validationCustomUsername" name="title"
+                                                placeholder="description" aria-describedby="inputGroupPrepend" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <button class="btn btn-primary" type="submit">Add Warranty</button>
+                                    </div>
+                                </form>
+
+                            
+                    {% if avcomponents %}
+                        <center><h2>AVComponents</h2></center>
+                        <li>
+                            {{ avcomponents.total }}
+                            {{ avcomponents.item_description }}
+                            {{ avcomponents.item_location }}
+                            {{ avcomponents.item_name }}
+                            {{ avcomponents.item_quanity }}
+                            {{ avcomponents.item_labor_cost }}
+                            {{ avcomponents.item_cost }}
+                        </li>
+                    {% else %}
+                        <h2>Add AVComponents</h2>
+                        <!--TODO FOR ALL ELSE STATEMENTS-->
+                        <form class="row g-3 needs-validation" action="{% url 'add_installation' customer.id %}" method="post" novalidate>
+                            {% csrf_token %}
+                            <div class="col-md-4">
+                                <label for="validationCustom01" class="form-label">Date Start</label>
+                                <input type="text" class="form-control" id="validationCustom01" placeholder="00/00/0000" name="date_start"
+                                    required>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="validationCustom02" class="form-label">Cleanup required? ("True" or "False")</label>
+                                <input type="text" class="form-control" id="validationCustom02" name="cleanup" placeholder="False" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="validationCustomUsername" class="form-label">Date Finish</label>
+                                <div class="input-group has-validation">
+                                    <input type="text" class="form-control" id="validationCustomUsername" name="date_finish"
+                                        placeholder="description" aria-describedby="inputGroupPrepend" required>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <button class="btn btn-primary" type="submit">Add Installation</button>
+                            </div>
+                        </form>
+
+                        {% if warranty %}
+                            <center><h2>Warranty</h2></center>
+                            <li>
+                                {{ warranty.start_date }}
+                                {{ warranty.title }}
+                                {{ warranty.mfg_warranty }}
+                                {{ warranty.add_warranty }}
+                                {{ warranty.cost }}
+
+                            </li>
+                        {% else %}
+                            <h2>Add a Warrantyn</h2>
+                            <!--TODO FOR ALL ELSE STATEMENTS-->
+                            <form class="row g-3 needs-validation" action="{% url 'add_installation' customer.id %}" method="post" novalidate>
+                                {% csrf_token %}
+                                <div class="col-md-4">
+                                    <label for="validationCustom01" class="form-label">Date Start</label>
+                                    <input type="text" class="form-control" id="validationCustom01" placeholder="00/00/0000" name="date_start"
+                                        required>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="validationCustom02" class="form-label">Cleanup required? ("True" or "False")</label>
+                                    <input type="text" class="form-control" id="validationCustom02" name="cleanup" placeholder="False" required>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="validationCustomUsername" class="form-label">Date Finish</label>
+                                    <div class="input-group has-validation">
+                                        <input type="text" class="form-control" id="validationCustomUsername" name="date_finish"
+                                            placeholder="description" aria-describedby="inputGroupPrepend" required>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <button class="btn btn-primary" type="submit">Add Installation</button>
+                                </div>
+                            </form>
+
+                    {% if electronics %}
+                        <center><h2>Electronics</h2></center>
+                        <li>
+                            {{ electronics.total }}
+                            {{ electronics.item_description }}
+                            {{ electronics.item_location }}
+                            {{ electronics.item_name }}
+                            {{ electronics.item_quanity }}
+                            {{ electronics.item_labor_cost }}
+                            {{  electronics.item_cost }}
+                        </li>
+                    {% else %}
+                        <h2>Add Electronics</h2>
+                        <!--TODO FOR ALL ELSE STATEMENTS-->
+                        <form class="row g-3 needs-validation" action="{% url 'add_installation' customer.id %}" method="post" novalidate>
+                            {% csrf_token %}
+                            <div class="col-md-4">
+                                <label for="validationCustom01" class="form-label">Date Start</label>
+                                <input type="text" class="form-control" id="validationCustom01" placeholder="00/00/0000" name="date_start"
+                                    required>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="validationCustom02" class="form-label">Cleanup required? ("True" or "False")</label>
+                                <input type="text" class="form-control" id="validationCustom02" name="cleanup" placeholder="False" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="validationCustomUsername" class="form-label">Date Finish</label>
+                                <div class="input-group has-validation">
+                                    <input type="text" class="form-control" id="validationCustomUsername" name="date_finish"
+                                        placeholder="description" aria-describedby="inputGroupPrepend" required>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <button class="btn btn-primary" type="submit">Add Installation</button>
+                            </div>
+                        </form>
+
+                        {% if warranty %}
+                            <center><h2>Warranty</h2></center>
+                            <li>
+                                {{ warranty.start_date }}
+                                {{ warranty.title }}
+                                {{ warranty.mfg_warranty }}
+                                {{ warranty.add_warranty }}
+                                {{ warranty.cost }}
+
+                            </li>
+                        {% else %}
+                            <h2>Add a Warrantyn</h2>
+                            <!--TODO FOR ALL ELSE STATEMENTS-->
+                            <form class="row g-3 needs-validation" action="{% url 'add_installation' customer.id %}" method="post" novalidate>
+                                {% csrf_token %}
+                                <div class="col-md-4">
+                                    <label for="validationCustom01" class="form-label">Date Start</label>
+                                    <input type="text" class="form-control" id="validationCustom01" placeholder="00/00/0000" name="date_start"
+                                        required>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="validationCustom02" class="form-label">Cleanup required? ("True" or "False")</label>
+                                    <input type="text" class="form-control" id="validationCustom02" name="cleanup" placeholder="False" required>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="validationCustomUsername" class="form-label">Date Finish</label>
+                                    <div class="input-group has-validation">
+                                        <input type="text" class="form-control" id="validationCustomUsername" name="date_finish"
+                                            placeholder="description" aria-describedby="inputGroupPrepend" required>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <button class="btn btn-primary" type="submit">Add Installation</button>
+                                </div>
+                            </form>
+
+                    {% if employee %}
+                        <center><h2>Employee</h2></center>
+                        <li>
+                            {{ employee.name }}
+                            {{ employee.department }}
+                        </li>
+                    {% else %}
+                        <h2>Add an Employeen</h2>
+                        <!--TODO FOR ALL ELSE STATEMENTS-->
+                        <form class="row g-3 needs-validation" action="{% url 'add_installation' customer.id %}" method="post" novalidate>
+                            {% csrf_token %}
+                            <div class="col-md-4">
+                                <label for="validationCustom01" class="form-label">Date Start</label>
+                                <input type="text" class="form-control" id="validationCustom01" placeholder="00/00/0000" name="date_start"
+                                    required>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="validationCustom02" class="form-label">Cleanup required? ("True" or "False")</label>
+                                <input type="text" class="form-control" id="validationCustom02" name="cleanup" placeholder="False" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="validationCustomUsername" class="form-label">Date Finish</label>
+                                <div class="input-group has-validation">
+                                    <input type="text" class="form-control" id="validationCustomUsername" name="date_finish"
+                                        placeholder="description" aria-describedby="inputGroupPrepend" required>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <button class="btn btn-primary" type="submit">Add Installation</button>
+                            </div>
+                        </form>
+
+
+            
+            
         
-                <form class="row g-3 needs-validation" action="{% url 'add_appraisal' customer.id %}" method="post" novalidate>
-                    {% csrf_token %}
-                    <div class="col-md-4">
-                      <label for="validationCustom01" class="form-label">Location</label>
-                      <input type="text" class="form-control" id="validationCustom01" placeholder="Living room" name="location" required>
-                    </div>
-                    <div class="col-md-4">
-                      <label for="validationCustom02" class="form-label">Cable run needed? ("True" or "False")</label>
-                      <input type="text" class="form-control" id="validationCustom02" name="cableRun" placeholder="False" required>
-                    </div>
-                    <div class="col-md-4">
-                      <label for="validationCustomUsername" class="form-label">Comments</label>
-                      <div class="input-group has-validation">
-                        <input type="text" class="form-control" id="validationCustomUsername" name="comments" placeholder="Comment" aria-describedby="inputGroupPrepend" required>
-                      </div>
-                    </div>
-                    <div class="col-12">
-                        <button class="btn btn-primary" type="submit">Add Customer</button>
-                    </div>
-                </form>
             {% endif %}
         {% else %}
             <p>No customer data available.</p>
