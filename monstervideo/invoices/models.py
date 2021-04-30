@@ -45,7 +45,7 @@ class Item(models.Model):
     item_description = models.CharField(max_length=80)
     item_location = models.CharField(max_length=80)
     item_name = models.CharField(max_length=30)
-    item_quanity = models.IntegerField()
+    item_quantity = models.IntegerField()
     item_labor_cost = models.FloatField(default=0.0)
     item_cost = models.FloatField(default=0.0)   
 

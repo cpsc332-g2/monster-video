@@ -19,39 +19,358 @@
             </div>
         </nav>
         <br><br>
-        <center><h1>Customer Details</h1></center>
+        <center><h2>Customer Details</h2></center>
+        <br>
         {% if customer %}
-            <li>
-                {{ customer.name }}
-                {{ customer.street }}
-                {{ customer.city }}
-                {{ customer.state }}
-                {{ customer.zipCode }}
-                {{ customer.phone }}
-            </li>
-            <br><br><br>
+            <dl class="row">
+                <dt class="col-sm-3">Customer Name</dt>
+                <dd class="col-sm-9">{{ customer.name }}</dd>
+
+                <dt class="col-sm-3">Customer Address</dt>
+                <dd class="col-sm-9">
+                    {{ customer.street }}
+                    {{ customer.city }},
+                    {{ customer.state }},
+                    {{ customer.zipCode }}
+                </dd>
+
+                <dt class="col-sm-3">Phone Number</dt>
+                <dd class="col-sm-9">{{ customer.phone }}</dd>
+            </dl>
+
+            <br><br>
         
             {% if appraisal %}
                 <center><h2>Appraisal</h2></center>
-                <li>
-                    {{ appraisal.location }}
-                    {{ appraisal.cableRun }}
-                    {{ appraisal.comments }}
-                </li>
-            {% else %}
-                <h2>Add an Appraisal</h2>
-                <!--Old sample form fields-->
-                <!--<form action="{% url 'add_appraisal' customer.id %}" method="post">
-                    {% csrf_token %}
-                    <h3>Location</h3>
-                    <input type="text" placeholder="Living room" name="location">
-                    <h3>Cable Run</h3>
-                    <input type="text" placeholder="True or False" name="cableRun">
-                    <h3>Comments</h3>
-                    <input type="text" placeholder="Comments" name="comments">
-                    <button type"submit">Submit</button>
-                </form>-->
+                <br>
+                <dl class="row">
+                    <dt class="col-sm-3">Location</dt>
+                    <dd class="col-sm-9">{{ appraisal.location }}</dd>
+    
+                    <dt class="col-sm-3">Cable Run?</dt>
+                    <dd class="col-sm-9">{{ appraisal.cableRun }}</dd>
+    
+                    <dt class="col-sm-3">Comments</dt>
+                    <dd class="col-sm-9">{{ appraisal.comments }}</dd>
+
+                    <dd class="col-sm-12 text-end">
+                        <form action="{% url 'delete_appraisal' customer.id %}" method="POST" >
+                            {% csrf_token %}
+                            <button class="btn btn-danger" type="submit">Delete</button>
+                        </form>
+                    </dd>
+                </dl>
+                {% if proposal %}
+                    <br><br>
+                    <center><h2>Proposal</h2></center>
+                    <br>
+                    <dl class="row">
+                        <dt class="col-sm-3">Proposal Created</dt>
+                        <dd class="col-sm-9">{{ proposal.date }}</dd>
         
+                        <dt class="col-sm-3">Description</dt>
+                        <dd class="col-sm-9">{{ proposal.description }}</dd>
+                    </dl>
+                    {% if installation %}
+                        <br><br>
+                        <center><h2>Installation</h2></center>
+                        <br>
+                        <dl class="row">
+                            <dt class="col-sm-3">Start Date</dt>
+                            <dd class="col-sm-9">{{ installation.date_start }}</dd>
+            
+                            <dt class="col-sm-3">Estimated End Date</dt>
+                            <dd class="col-sm-9">{{ installation.date_finish }}</dd>
+            
+                            <dt class="col-sm-3">Cleanup?</dt>
+                            <dd class="col-sm-9">{{ installation.cleanup }}</dd>
+
+                            <dt class="col-sm-3">Total Materials Cost</dt>
+                            <dd class="col-sm-9">{{ installation.total_material }}</dd>
+
+                            <dt class="col-sm-3">Cables Cost</dt>
+                            <dd class="col-sm-9">{{ installation.cables_cost }}</dd>
+
+                            <dt class="col-sm-3">Total Labor</dt>
+                            <dd class="col-sm-9">{{ installation.total_labor }}</dd>
+
+                            <dt class="col-sm-3">Total Cost</dt>
+                            <dd class="col-sm-9">{{ installation.total_cost }}</dd>
+                        </dl>
+                        {% if employee %}
+                            <br><br>
+                            <center><h2>Employee</h2></center>
+                            <br>
+                            <dl class="row">
+                                <dt class="col-sm-3">Employee Name</dt>
+                                <dd class="col-sm-9">{{ employee.name }}</dd>
+                
+                                <dt class="col-sm-3">Department</dt>
+                                <dd class="col-sm-9">{{ employee.department }}</dd>
+                            </dl>
+                        {% else %}
+                            <br><br>
+                            <h2>Add an Employee</h2>
+                            <form class="row g-3 needs-validation" action="{% url 'add_employee' customer.id %}" method="post" novalidate>
+                                {% csrf_token %}
+                                <div class="col-md-6">
+                                    <label for="validationCustom01" class="form-label">Name</label>
+                                    <input type="text" class="form-control" id="validationCustom01" placeholder="Joe Smith" name="name" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="validationCustom02" class="form-label">Department</label>
+                                    <input type="text" class="form-control" id="validationCustom02" name="department" placeholder="Service" required>
+                                </div>
+                                <div class="col-12">
+                                    <button class="btn btn-primary" type="submit">Add Employee</button>
+                                </div>
+                            </form>
+                        {% endif %}
+                        {% if speakers_list %}
+                            <br><br>
+                            <center><h2>Speakers</h2></center>
+                            {% for speaker in speakers_list %}
+                                {% if speaker.installation == installation %}
+                                    <br>
+                                    <dl class="row">
+                                        <dt class="col-sm-3">Speaker Name</dt>
+                                        <dd class="col-sm-9">{{ speaker.item_name }}</dd>
+                        
+                                        <dt class="col-sm-3">Description</dt>
+                                        <dd class="col-sm-9">{{ speaker.item_description }}</dd>
+
+                                        <dt class="col-sm-3">Installation Location</dt>
+                                        <dd class="col-sm-9">{{ speaker.item_location }}</dd>
+
+                                        <dt class="col-sm-3">Quantity</dt>
+                                        <dd class="col-sm-9">{{ speaker.item_quantity }}</dd>
+
+                                        <dt class="col-sm-3">Price</dt>
+                                        <dd class="col-sm-9">{{ speaker.item_cost }}</dd>
+
+                                        <dt class="col-sm-3">Labor Cost</dt>
+                                        <dd class="col-sm-9">{{ speaker.item_labor_cost }}</dd>
+
+                                        <dt class="col-sm-3">Total</dt>
+                                        <dd class="col-sm-9">{{ speaker.total }}</dd>
+                                    </dl>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        <br><br>
+                        <center><h2>Add a Speaker</h2></center>
+                        <br>
+                        <form class="row g-3 needs-validation" action="{% url 'add_speaker' customer.id %}" method="post" novalidate>
+                            {% csrf_token %}
+                            <div class="col-md-4">
+                                <label for="validationCustom01" class="form-label">Item</label>
+                                <input type="text" class="form-control" id="validationCustom01" placeholder="Bose Speakers" name="item_name" required>
+                            </div>
+                            <div class="col-md-8">
+                                <label for="validationCustom02" class="form-label">Description</label>
+                                <input type="text" class="form-control" id="validationCustom02" name="item_description" placeholder="Recommended over the sony, would provide better sound coverage." required>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="validationCustom02" class="form-label">Installation Location</label>
+                                <input type="text" class="form-control" id="validationCustom02" name="item_location" placeholder="Living Room" required>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="validationCustom02" class="form-label">Quantity</label>
+                                <input type="number" class="form-control" id="validationCustom02" name="item_quantity" placeholder="1" required>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="validationCustom02" class="form-label">Price</label>
+                                <input type="number" class="form-control" id="validationCustom02" name="item_cost" placeholder="100.00" required>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="validationCustom02" class="form-label">Labor Fee</label>
+                                <input type="number" class="form-control" id="validationCustom02" name="item_labor_cost" placeholder="10.00" required>
+                            </div>
+                            <div class="col-12">
+                                <button class="btn btn-primary" type="submit">Add Speaker</button>
+                            </div>
+                        </form>
+
+                        {% if avcomp_list %}
+                            <br><br>
+                            <center><h2>AV Components</h2></center>
+                            {% for avcomp in avcomp_list %}
+                                {% if avcomp.installation == installation %}
+                                    <br>
+                                    <dl class="row">
+                                        <dt class="col-sm-3">AV Component Name</dt>
+                                        <dd class="col-sm-9">{{ avcomp.item_name }}</dd>
+                        
+                                        <dt class="col-sm-3">Description</dt>
+                                        <dd class="col-sm-9">{{ avcomp.item_description }}</dd>
+
+                                        <dt class="col-sm-3">Installation Location</dt>
+                                        <dd class="col-sm-9">{{ avcomp.item_location }}</dd>
+
+                                        <dt class="col-sm-3">Quantity</dt>
+                                        <dd class="col-sm-9">{{ avcomp.item_quantity }}</dd>
+
+                                        <dt class="col-sm-3">Price</dt>
+                                        <dd class="col-sm-9">{{ avcomp.item_cost }}</dd>
+
+                                        <dt class="col-sm-3">Labor Cost</dt>
+                                        <dd class="col-sm-9">{{ avcomp.item_labor_cost }}</dd>
+
+                                        <dt class="col-sm-3">Total</dt>
+                                        <dd class="col-sm-9">{{ avcomp.total }}</dd>
+                                    </dl>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        <br><br>
+                        <center><h2>Add an AV Component</h2></center>
+                        <br>
+                        <form class="row g-3 needs-validation" action="{% url 'add_avcomp' customer.id %}" method="post" novalidate>
+                            {% csrf_token %}
+                            <div class="col-md-4">
+                                <label for="validationCustom01" class="form-label">Item</label>
+                                <input type="text" class="form-control" id="validationCustom01" placeholder="Video wall unit" name="item_name" required>
+                            </div>
+                            <div class="col-md-8">
+                                <label for="validationCustom02" class="form-label">Description</label>
+                                <input type="text" class="form-control" id="validationCustom02" name="item_description" placeholder="Excellent visual quality and response time." required>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="validationCustom02" class="form-label">Installation Location</label>
+                                <input type="text" class="form-control" id="validationCustom02" name="item_location" placeholder="Office" required>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="validationCustom02" class="form-label">Quantity</label>
+                                <input type="number" class="form-control" id="validationCustom02" name="item_quantity" placeholder="1" required>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="validationCustom02" class="form-label">Price</label>
+                                <input type="number" class="form-control" id="validationCustom02" name="item_cost" placeholder="100.00" required>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="validationCustom02" class="form-label">Labor Fee</label>
+                                <input type="number" class="form-control" id="validationCustom02" name="item_labor_cost" placeholder="10.00" required>
+                            </div>
+                            <div class="col-12">
+                                <button class="btn btn-primary" type="submit">Add AV Component</button>
+                            </div>
+                        </form>
+
+                        {% if electronics_list %}
+                            <br><br>
+                            <center><h2>Electronics</h2></center>
+                            <br>
+                            {% for electronic in electronics_list %}
+                                {% if electronic.installation == installation %}
+                                    <br>
+                                    <dl class="row">
+                                        <dt class="col-sm-3">Electronic Name</dt>
+                                        <dd class="col-sm-9">{{ electronic.item_name }}</dd>
+                        
+                                        <dt class="col-sm-3">Description</dt>
+                                        <dd class="col-sm-9">{{ electronic.item_description }}</dd>
+
+                                        <dt class="col-sm-3">Installation Location</dt>
+                                        <dd class="col-sm-9">{{ electronic.item_location }}</dd>
+
+                                        <dt class="col-sm-3">Quantity</dt>
+                                        <dd class="col-sm-9">{{ electronic.item_quantity }}</dd>
+
+                                        <dt class="col-sm-3">Price</dt>
+                                        <dd class="col-sm-9">{{ electronic.item_cost }}</dd>
+
+                                        <dt class="col-sm-3">Labor Cost</dt>
+                                        <dd class="col-sm-9">{{ electronic.item_labor_cost }}</dd>
+
+                                        <dt class="col-sm-3">Total</dt>
+                                        <dd class="col-sm-9">{{ electronic.total }}</dd>
+                                    </dl>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        <br><br>
+                        <center><h2>Add an Electronic</h2></center>
+                        <br>
+                        <form class="row g-3 needs-validation" action="{% url 'add_electronic' customer.id %}" method="post" novalidate>
+                            {% csrf_token %}
+                            <div class="col-md-4">
+                                <label for="validationCustom01" class="form-label">Item</label>
+                                <input type="text" class="form-control" id="validationCustom01" placeholder="Video wall unit" name="item_name" required>
+                            </div>
+                            <div class="col-md-8">
+                                <label for="validationCustom02" class="form-label">Description</label>
+                                <input type="text" class="form-control" id="validationCustom02" name="item_description" placeholder="Excellent visual quality and response time." required>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="validationCustom02" class="form-label">Installation Location</label>
+                                <input type="text" class="form-control" id="validationCustom02" name="item_location" placeholder="Office" required>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="validationCustom02" class="form-label">Quantity</label>
+                                <input type="number" class="form-control" id="validationCustom02" name="item_quantity" placeholder="1" required>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="validationCustom02" class="form-label">Price</label>
+                                <input type="number" class="form-control" id="validationCustom02" name="item_cost" placeholder="100.00" required>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="validationCustom02" class="form-label">Labor Fee</label>
+                                <input type="number" class="form-control" id="validationCustom02" name="item_labor_cost" placeholder="10.00" required>
+                            </div>
+                            <div class="col-12">
+                                <button class="btn btn-primary" type="submit">Add Electronic</button>
+                            </div>
+                        </form>
+                    {% else %}
+                        <br><br>
+                        <center><h2>Add an Installation</h2></center>
+                        <form class="row g-3 needs-validation" action="{% url 'add_installation' customer.id %}" method="post" novalidate>
+                            {% csrf_token %}
+                            <div class="col-md-4">
+                                <label for="validationCustom01" class="form-label">Date Start</label>
+                                <input type="text" class="form-control" id="validationCustom01" placeholder="YYYY-MM-DD" name="date_start" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="validationCustom02" class="form-label">Date Finish</label>
+                                <input type="text" class="form-control" id="validationCustom02" name="date_finish" placeholder="YYYY-MM-DD" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="validationCustom01" class="form-label">Clean-up needed? ("True" or "False")</label>
+                                <input type="text" class="form-control" id="validationCustom01" placeholder="True" name="cleanup" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="validationCustom01" class="form-label">Total Material Cost</label>
+                                <input type="number" step="0.01" min="0" class="form-control" id="validationCustom01" placeholder="100.00" name="total_material" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="validationCustom02" class="form-label">Cables Cost</label>
+                                <input type="number" step="0.01" min="0" class="form-control" id="validationCustom02" name="cables_cost" placeholder="10.00" required>
+                            </div>
+                            <div class="col-12">
+                                <button class="btn btn-primary" type="submit">Add Installation</button>
+                            </div>
+                        </form>
+                    {% endif %}
+                {% else %}
+                    <br><br>
+                    <center><h2>Add a Proposal</h2></center>
+                    <form class="row g-3 needs-validation" action="{% url 'add_proposal' customer.id %}" method="post" novalidate>
+                        {% csrf_token %}
+                        <div class="col-md-3">
+                            <label for="validationCustom01" class="form-label">Date</label>
+                            <input type="text" class="form-control" id="validationCustom01" placeholder="YYYY-MM-DD" name="date" required>
+                        </div>
+                        <div class="col-md-9">
+                            <label for="validationCustom02" class="form-label">Description</label>
+                            <input type="text" class="form-control" id="validationCustom02" name="description" placeholder="Description" required>
+                        </div>
+                        <div class="col-12">
+                            <button class="btn btn-primary" type="submit">Add Proposal</button>
+                        </div>
+                    </form>
+                {% endif %}
+            {% else %}              
+                <center><h2>Add an Appraisal</h2></center>
                 <form class="row g-3 needs-validation" action="{% url 'add_appraisal' customer.id %}" method="post" novalidate>
                     {% csrf_token %}
                     <div class="col-md-4">
@@ -69,7 +388,7 @@
                       </div>
                     </div>
                     <div class="col-12">
-                        <button class="btn btn-primary" type="submit">Add Customer</button>
+                        <button class="btn btn-primary" type="submit">Add Appraisal</button>
                     </div>
                 </form>
             {% endif %}

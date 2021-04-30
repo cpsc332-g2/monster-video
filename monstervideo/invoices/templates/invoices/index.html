@@ -14,38 +14,24 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid mx-auto">
                 <a class="navbar-brand mx-auto text" href="/invoices">Monster Video</a>
-
             </div>
         </nav>
         <br><br>
+        <center><h3>Customers</h3></center>
+        <br><br>
         {% if customer_list %}
-            <ul>
             {% for customer in customer_list %}
-                <li><a href="/invoices/{{ customer.id }}/">{{ customer.name }}</a></li>
+                <dl class="row">
+                    <dd class="col-sm-9"><a href="/invoices/{{ customer.id }}/">{{ customer.name }}</a></dd>
+                </dl>
             {% endfor %}
-            </ul>
         {% else %}
             <p>No customers are available.</p>
         {% endif %}
 
-        <!-- Old non bootstrap form layout-->
-        <!--<form action="{% url 'add_customer' %}" method="post">
-            {% csrf_token %}
-            <h3>Customer Name</h3>
-            <input type="text" placeholder="John Appleseed" name="name">
-            <h3>Street Address</h3>
-            <input type="text" placeholder="123 sample way" name="street">
-            <h3>City</h3>
-            <input type="text" placeholder="Irvine" name="city">
-            <h3>State</h3>
-            <input type="text" placeholder="California" name="state">
-            <h3>Zip Code</h3>
-            <input type="number" placeholder="92620" name="zipCode">
-            <h3>Phone Number</h3>
-            <input type="number" placeholder="8005551111" name="phone">
-            <button type"submit">Submit</button>
-        </form>-->
-
+        <br>
+        <center><h3>Add a Customer</h3></center>
+        <br>
         <form class="row g-3 needs-validation" action="{% url 'add_customer' %}" method="post" novalidate>
             {% csrf_token %}
             <div class="col-md-4">
@@ -54,26 +40,23 @@
             </div>
             <div class="col-md-4">
               <label for="validationCustom02" class="form-label">Street</label>
-              <input type="text" class="form-control" id="validationCustom02" name="street" value="Otto" required>
+              <input type="text" class="form-control" id="validationCustom02" name="street" placeholder="123 sample street" required>
             </div>
             <div class="col-md-4">
-              <label for="validationCustomUsername" class="form-label">City</label>
-              <div class="input-group has-validation">
-                
-                <input type="text" class="form-control" id="validationCustomUsername" name="city" aria-describedby="inputGroupPrepend" required>
-              </div>
+                <label for="validationCustomUsername" class="form-label" >City</label>
+                <input type="text" class="form-control" id="validationCustomUsername" name="city" placeholder="Fullerton" aria-describedby="inputGroupPrepend" required>
             </div>
             <div class="col-md-4">
               <label for="validationCustom03" class="form-label">State</label>
-              <input type="text" class="form-control" id="validationCustom03" name="state" required>
+              <input type="text" class="form-control" id="validationCustom03" name="state" placeholder="CA"required>
             </div>
             <div class="col-md-4">
                 <label for="validationCustom04" class="form-label">Zip Code</label>
-                <input type="text" class="form-control" id="validationCustom03" name="zipCode" required>
+                <input type="text" class="form-control" id="validationCustom03" name="zipCode" placeholder="92122" required>
             </div>
             <div class="col-md-4">
                 <label for="validationCustom05" class="form-label">Phone Number</label>
-                <input type="text" class="form-control" id="validationCustom05" name="number" required>
+                <input type="text" class="form-control" id="validationCustom05" name="number" placeholder="9493334444" required>
             </div>
             <div class="col-12">
                 <button class="btn btn-primary" type="submit">Add Customer</button>
