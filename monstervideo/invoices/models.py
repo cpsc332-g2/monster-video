@@ -18,14 +18,14 @@ class Appraisal(models.Model):
 class Proposal(models.Model):
     appraisal = models.ForeignKey(Appraisal, on_delete = models.CASCADE)
 
-    date = models.DateField(auto_now=False, auto_now_add=True)
+    date = models.DateField(auto_now=False, auto_now_add=False)
     description = models.CharField(max_length=200)
 
 class Installation(models.Model):
     proposal = models.ForeignKey(Proposal, on_delete = models.CASCADE)
     customer = models.ForeignKey(Customer, on_delete = models.CASCADE)
 
-    date_start = models.DateField(auto_now=False, auto_now_add=True)
+    date_start = models.DateField(auto_now=False, auto_now_add=False)
     date_finish = models.DateField(auto_now=False, auto_now_add=False)
     cleanup = models.BooleanField(default=False)
     total_material = models.FloatField(default=0.0)

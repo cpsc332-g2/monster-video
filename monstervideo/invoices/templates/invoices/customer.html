@@ -14,7 +14,7 @@
 
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid mx-auto">
-                <a class="navbar-brand mx-auto text" href="/invoices">Monster Video</a>
+                <a class="navbar-brand mx-auto text" href="/">Monster Video</a>
 
             </div>
         </nav>
@@ -23,19 +23,26 @@
         <br>
         {% if customer %}
             <dl class="row">
-                <dt class="col-sm-3">Customer Name</dt>
-                <dd class="col-sm-9">{{ customer.name }}</dd>
+                <dt class="col-sm-6 text-end">Customer Name</dt>
+                <dd class="col-sm-6">{{ customer.name }}</dd>
 
-                <dt class="col-sm-3">Customer Address</dt>
-                <dd class="col-sm-9">
+                <dt class="col-sm-6 text-end">Customer Address</dt>
+                <dd class="col-sm-6">
                     {{ customer.street }}
                     {{ customer.city }},
                     {{ customer.state }},
                     {{ customer.zipCode }}
                 </dd>
 
-                <dt class="col-sm-3">Phone Number</dt>
-                <dd class="col-sm-9">{{ customer.phone }}</dd>
+                <dt class="col-sm-6 text-end">Phone Number</dt>
+                <dd class="col-sm-6">{{ customer.phone }}</dd>
+
+                <dd class="col-sm-12 text-center">
+                    <form action="{% url 'delete_customer' customer.id %}" method="POST" >
+                        {% csrf_token %}
+                        <button class="btn btn-danger" type="submit">Delete</button>
+                    </form>
+                </dd>
             </dl>
 
             <br><br>
@@ -44,16 +51,16 @@
                 <center><h2>Appraisal</h2></center>
                 <br>
                 <dl class="row">
-                    <dt class="col-sm-3">Location</dt>
-                    <dd class="col-sm-9">{{ appraisal.location }}</dd>
+                    <dt class="col-sm-6 text-end">Location</dt>
+                    <dd class="col-sm-6">{{ appraisal.location }}</dd>
     
-                    <dt class="col-sm-3">Cable Run?</dt>
-                    <dd class="col-sm-9">{{ appraisal.cableRun }}</dd>
+                    <dt class="col-sm-6 text-end">Cable Run?</dt>
+                    <dd class="col-sm-6">{{ appraisal.cableRun }}</dd>
     
-                    <dt class="col-sm-3">Comments</dt>
-                    <dd class="col-sm-9">{{ appraisal.comments }}</dd>
+                    <dt class="col-sm-6 text-end">Comments</dt>
+                    <dd class="col-sm-6">{{ appraisal.comments }}</dd>
 
-                    <dd class="col-sm-12 text-end">
+                    <dd class="col-sm-12 text-center">
                         <form action="{% url 'delete_appraisal' customer.id %}" method="POST" >
                             {% csrf_token %}
                             <button class="btn btn-danger" type="submit">Delete</button>
@@ -65,48 +72,69 @@
                     <center><h2>Proposal</h2></center>
                     <br>
                     <dl class="row">
-                        <dt class="col-sm-3">Proposal Created</dt>
-                        <dd class="col-sm-9">{{ proposal.date }}</dd>
+                        <dt class="col-sm-6 text-end">Proposal Created</dt>
+                        <dd class="col-sm-6">{{ proposal.date }}</dd>
         
-                        <dt class="col-sm-3">Description</dt>
-                        <dd class="col-sm-9">{{ proposal.description }}</dd>
+                        <dt class="col-sm-6 text-end">Description</dt>
+                        <dd class="col-sm-6">{{ proposal.description }}</dd>
+
+                        <dd class="col-sm-12 text-center">
+                            <form action="{% url 'delete_proposal' customer.id %}" method="POST" >
+                                {% csrf_token %}
+                                <button class="btn btn-danger" type="submit">Delete</button>
+                            </form>
+                        </dd>
                     </dl>
                     {% if installation %}
                         <br><br>
                         <center><h2>Installation</h2></center>
                         <br>
                         <dl class="row">
-                            <dt class="col-sm-3">Start Date</dt>
-                            <dd class="col-sm-9">{{ installation.date_start }}</dd>
+                            <dt class="col-sm-6 text-end">Start Date</dt>
+                            <dd class="col-sm-6">{{ installation.date_start }}</dd>
             
-                            <dt class="col-sm-3">Estimated End Date</dt>
-                            <dd class="col-sm-9">{{ installation.date_finish }}</dd>
+                            <dt class="col-sm-6 text-end">Estimated End Date</dt>
+                            <dd class="col-sm-6">{{ installation.date_finish }}</dd>
             
-                            <dt class="col-sm-3">Cleanup?</dt>
-                            <dd class="col-sm-9">{{ installation.cleanup }}</dd>
+                            <dt class="col-sm-6 text-end">Cleanup?</dt>
+                            <dd class="col-sm-6">{{ installation.cleanup }}</dd>
 
-                            <dt class="col-sm-3">Total Materials Cost</dt>
-                            <dd class="col-sm-9">{{ installation.total_material }}</dd>
+                            <dt class="col-sm-6 text-end">Total Materials Cost</dt>
+                            <dd class="col-sm-6">{{ installation.total_material }}</dd>
 
-                            <dt class="col-sm-3">Cables Cost</dt>
-                            <dd class="col-sm-9">{{ installation.cables_cost }}</dd>
+                            <dt class="col-sm-6 text-end">Cables Cost</dt>
+                            <dd class="col-sm-6">{{ installation.cables_cost }}</dd>
 
-                            <dt class="col-sm-3">Total Labor</dt>
-                            <dd class="col-sm-9">{{ installation.total_labor }}</dd>
+                            <dt class="col-sm-6 text-end">Total Labor</dt>
+                            <dd class="col-sm-6">{{ installation.total_labor }}</dd>
 
-                            <dt class="col-sm-3">Total Cost</dt>
-                            <dd class="col-sm-9">{{ installation.total_cost }}</dd>
+                            <dt class="col-sm-6 text-end">Total Cost</dt>
+                            <dd class="col-sm-6">{{ installation.total_cost }}</dd>
+
+                            <dd class="col-sm-12 text-center">
+                                <form action="{% url 'delete_installation' customer.id %}" method="POST" >
+                                    {% csrf_token %}
+                                    <button class="btn btn-danger" type="submit">Delete</button>
+                                </form>
+                            </dd>
                         </dl>
                         {% if employee %}
                             <br><br>
                             <center><h2>Employee</h2></center>
                             <br>
                             <dl class="row">
-                                <dt class="col-sm-3">Employee Name</dt>
-                                <dd class="col-sm-9">{{ employee.name }}</dd>
+                                <dt class="col-sm-6 text-end">Employee Name</dt>
+                                <dd class="col-sm-6">{{ employee.name }}</dd>
                 
-                                <dt class="col-sm-3">Department</dt>
-                                <dd class="col-sm-9">{{ employee.department }}</dd>
+                                <dt class="col-sm-6 text-end">Department</dt>
+                                <dd class="col-sm-6">{{ employee.department }}</dd>
+
+                                <dd class="col-sm-12 text-center">
+                                    <form action="{% url 'delete_employee' customer.id %}" method="POST" >
+                                        {% csrf_token %}
+                                        <button class="btn btn-danger" type="submit">Delete</button>
+                                    </form>
+                                </dd>
                             </dl>
                         {% else %}
                             <br><br>
@@ -133,26 +161,68 @@
                                 {% if speaker.installation == installation %}
                                     <br>
                                     <dl class="row">
-                                        <dt class="col-sm-3">Speaker Name</dt>
-                                        <dd class="col-sm-9">{{ speaker.item_name }}</dd>
+                                        <dt class="col-sm-6 text-end">Speaker Name</dt>
+                                        <dd class="col-sm-6">{{ speaker.item_name }}</dd>
                         
-                                        <dt class="col-sm-3">Description</dt>
-                                        <dd class="col-sm-9">{{ speaker.item_description }}</dd>
+                                        <dt class="col-sm-6 text-end">Description</dt>
+                                        <dd class="col-sm-6">{{ speaker.item_description }}</dd>
 
-                                        <dt class="col-sm-3">Installation Location</dt>
-                                        <dd class="col-sm-9">{{ speaker.item_location }}</dd>
+                                        <dt class="col-sm-6 text-end">Installation Location</dt>
+                                        <dd class="col-sm-6">{{ speaker.item_location }}</dd>
 
-                                        <dt class="col-sm-3">Quantity</dt>
-                                        <dd class="col-sm-9">{{ speaker.item_quantity }}</dd>
+                                        <dt class="col-sm-6 text-end">Quantity</dt>
+                                        <dd class="col-sm-6">{{ speaker.item_quantity }}</dd>
 
-                                        <dt class="col-sm-3">Price</dt>
-                                        <dd class="col-sm-9">{{ speaker.item_cost }}</dd>
+                                        <dt class="col-sm-6 text-end">Price</dt>
+                                        <dd class="col-sm-6">{{ speaker.item_cost }}</dd>
 
-                                        <dt class="col-sm-3">Labor Cost</dt>
-                                        <dd class="col-sm-9">{{ speaker.item_labor_cost }}</dd>
+                                        <dt class="col-sm-6 text-end">Labor Cost</dt>
+                                        <dd class="col-sm-6">{{ speaker.item_labor_cost }}</dd>
 
-                                        <dt class="col-sm-3">Total</dt>
-                                        <dd class="col-sm-9">{{ speaker.total }}</dd>
+                                        <dd class="col-sm-12 text-center">
+                                            <form action="{% url 'delete_item' speaker.id %}" method="POST" >
+                                                {% csrf_token %}
+                                                <button class="btn btn-danger" type="submit">Delete</button>
+                                            </form>
+                                        </dd>
+
+                                        <dd class="col-sm-12 text-center">
+                                            <!-- Button trigger modal -->
+                                            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#AddWarrantyModal1">
+                                                Add Warranty
+                                            </button>
+                                        </dd> 
+                                        
+                                        <!-- Modal -->
+                                        <form action="{% url 'add_warranty' speaker.id %}" method="POST" >
+                                            {% csrf_token %}
+                                            <div class="modal fade" id="AddWarrantyModal1" tabindex="-1" aria-labelledby="AddWarrantyModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                        <h5 class="modal-title" id="AddWarrantyModalLabel">Add Warranty</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <label for="validationCustom02" class="form-label">Warranty Title</label>
+                                                            <input type="text" class="form-control" id="validationCustom02" name="title" placeholder="Bose Headphones" required>
+
+                                                            <label for="validationCustom02" class="form-label">Start Date</label>
+                                                            <input type="text" class="form-control" id="validationCustom02" name="start_date" placeholder="2000-01-01" required>
+
+                                                            <label for="validationCustom02" class="form-label">Manufacturer's Warranty Duration (Years)</label>
+                                                            <input type="number" class="form-control" id="validationCustom02" name="mfg_warranty" placeholder="2" required>
+
+                                                            <label for="validationCustom02" class="form-label">Warranty Cost</label>
+                                                            <input type="number" class="form-control" id="validationCustom02" name="cost" placeholder="10.00" required>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button class="btn btn-success" type="submit">Add</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
                                     </dl>
                                 {% endif %}
                             {% endfor %}
@@ -198,26 +268,67 @@
                                 {% if avcomp.installation == installation %}
                                     <br>
                                     <dl class="row">
-                                        <dt class="col-sm-3">AV Component Name</dt>
-                                        <dd class="col-sm-9">{{ avcomp.item_name }}</dd>
+                                        <dt class="col-sm-6 text-end">AV Component Name</dt>
+                                        <dd class="col-sm-6">{{ avcomp.item_name }}</dd>
                         
-                                        <dt class="col-sm-3">Description</dt>
-                                        <dd class="col-sm-9">{{ avcomp.item_description }}</dd>
+                                        <dt class="col-sm-6 text-end">Description</dt>
+                                        <dd class="col-sm-6">{{ avcomp.item_description }}</dd>
 
-                                        <dt class="col-sm-3">Installation Location</dt>
-                                        <dd class="col-sm-9">{{ avcomp.item_location }}</dd>
+                                        <dt class="col-sm-6 text-end">Installation Location</dt>
+                                        <dd class="col-sm-6">{{ avcomp.item_location }}</dd>
 
-                                        <dt class="col-sm-3">Quantity</dt>
-                                        <dd class="col-sm-9">{{ avcomp.item_quantity }}</dd>
+                                        <dt class="col-sm-6 text-end">Quantity</dt>
+                                        <dd class="col-sm-6">{{ avcomp.item_quantity }}</dd>
 
-                                        <dt class="col-sm-3">Price</dt>
-                                        <dd class="col-sm-9">{{ avcomp.item_cost }}</dd>
+                                        <dt class="col-sm-6 text-end">Price</dt>
+                                        <dd class="col-sm-6">{{ avcomp.item_cost }}</dd>
 
-                                        <dt class="col-sm-3">Labor Cost</dt>
-                                        <dd class="col-sm-9">{{ avcomp.item_labor_cost }}</dd>
+                                        <dt class="col-sm-6 text-end">Labor Cost</dt>
+                                        <dd class="col-sm-6">{{ avcomp.item_labor_cost }}</dd>
 
-                                        <dt class="col-sm-3">Total</dt>
-                                        <dd class="col-sm-9">{{ avcomp.total }}</dd>
+                                        <dd class="col-sm-12 text-center">
+                                            <form action="{% url 'delete_item' avcomp.id %}" method="POST" >
+                                                {% csrf_token %}
+                                                <button class="btn btn-danger" type="submit">Delete</button>
+                                            </form>
+                                        </dd>
+                                        <dd class="col-sm-12 text-center">
+                                            <!-- Button trigger modal -->
+                                            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#AddWarrantyModal2">
+                                                Add Warranty
+                                            </button>
+                                        </dd> 
+                                        
+                                        <!-- Modal -->
+                                        <form action="{% url 'add_warranty' avcomp.id %}" method="POST" >
+                                            {% csrf_token %}
+                                            <div class="modal fade" id="AddWarrantyModal2" tabindex="-1" aria-labelledby="AddWarrantyModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                        <h5 class="modal-title" id="AddWarrantyModalLabel">Add Warranty</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <label for="validationCustom02" class="form-label">Warranty Title</label>
+                                                            <input type="text" class="form-control" id="validationCustom02" name="title" placeholder="Bose Headphones" required>
+
+                                                            <label for="validationCustom02" class="form-label">Start Date</label>
+                                                            <input type="text" class="form-control" id="validationCustom02" name="start_date" placeholder="2000-01-01" required>
+
+                                                            <label for="validationCustom02" class="form-label">Manufacturer's Warranty Duration (Years)</label>
+                                                            <input type="number" class="form-control" id="validationCustom02" name="mfg_warranty" placeholder="2" required>
+
+                                                            <label for="validationCustom02" class="form-label">Warranty Cost</label>
+                                                            <input type="number" class="form-control" id="validationCustom02" name="cost" placeholder="10.00" required>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button class="btn btn-success" type="submit">Add</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
                                     </dl>
                                 {% endif %}
                             {% endfor %}
@@ -264,26 +375,67 @@
                                 {% if electronic.installation == installation %}
                                     <br>
                                     <dl class="row">
-                                        <dt class="col-sm-3">Electronic Name</dt>
-                                        <dd class="col-sm-9">{{ electronic.item_name }}</dd>
+                                        <dt class="col-sm-6 text-end">Electronic Name</dt>
+                                        <dd class="col-sm-6">{{ electronic.item_name }}</dd>
                         
-                                        <dt class="col-sm-3">Description</dt>
-                                        <dd class="col-sm-9">{{ electronic.item_description }}</dd>
+                                        <dt class="col-sm-6 text-end">Description</dt>
+                                        <dd class="col-sm-6">{{ electronic.item_description }}</dd>
 
-                                        <dt class="col-sm-3">Installation Location</dt>
-                                        <dd class="col-sm-9">{{ electronic.item_location }}</dd>
+                                        <dt class="col-sm-6 text-end">Installation Location</dt>
+                                        <dd class="col-sm-6">{{ electronic.item_location }}</dd>
 
-                                        <dt class="col-sm-3">Quantity</dt>
-                                        <dd class="col-sm-9">{{ electronic.item_quantity }}</dd>
+                                        <dt class="col-sm-6 text-end">Quantity</dt>
+                                        <dd class="col-sm-6">{{ electronic.item_quantity }}</dd>
 
-                                        <dt class="col-sm-3">Price</dt>
-                                        <dd class="col-sm-9">{{ electronic.item_cost }}</dd>
+                                        <dt class="col-sm-6 text-end">Price</dt>
+                                        <dd class="col-sm-6">{{ electronic.item_cost }}</dd>
 
-                                        <dt class="col-sm-3">Labor Cost</dt>
-                                        <dd class="col-sm-9">{{ electronic.item_labor_cost }}</dd>
+                                        <dt class="col-sm-6 text-end">Labor Cost</dt>
+                                        <dd class="col-sm-6">{{ electronic.item_labor_cost }}</dd>
 
-                                        <dt class="col-sm-3">Total</dt>
-                                        <dd class="col-sm-9">{{ electronic.total }}</dd>
+                                        <dd class="col-sm-12 text-center">
+                                            <form action="{% url 'delete_item' electronic.id %}" method="POST" >
+                                                {% csrf_token %}
+                                                <button class="btn btn-danger" type="submit">Delete</button>
+                                            </form>
+                                        </dd>
+                                        <dd class="col-sm-12 text-center">
+                                            <!-- Button trigger modal -->
+                                            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#AddWarrantyModal3">
+                                                Add Warranty
+                                            </button>
+                                        </dd> 
+                                        
+                                        <!-- Modal -->
+                                        <form action="{% url 'add_warranty' electronic.id %}" method="POST" >
+                                            {% csrf_token %}
+                                            <div class="modal fade" id="AddWarrantyModal3" tabindex="-1" aria-labelledby="AddWarrantyModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                        <h5 class="modal-title" id="AddWarrantyModalLabel">Add Warranty</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <label for="validationCustom02" class="form-label">Warranty Title</label>
+                                                            <input type="text" class="form-control" id="validationCustom02" name="title" placeholder="Bose Headphones" required>
+
+                                                            <label for="validationCustom02" class="form-label">Start Date</label>
+                                                            <input type="text" class="form-control" id="validationCustom02" name="start_date" placeholder="2000-01-01" required>
+
+                                                            <label for="validationCustom02" class="form-label">Manufacturer's Warranty Duration (Years)</label>
+                                                            <input type="number" class="form-control" id="validationCustom02" name="mfg_warranty" placeholder="2" required>
+
+                                                            <label for="validationCustom02" class="form-label">Warranty Cost</label>
+                                                            <input type="number" class="form-control" id="validationCustom02" name="cost" placeholder="10.00" required>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button class="btn btn-success" type="submit">Add</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
                                     </dl>
                                 {% endif %}
                             {% endfor %}
@@ -321,6 +473,7 @@
                                 <button class="btn btn-primary" type="submit">Add Electronic</button>
                             </div>
                         </form>
+
                     {% else %}
                         <br><br>
                         <center><h2>Add an Installation</h2></center>

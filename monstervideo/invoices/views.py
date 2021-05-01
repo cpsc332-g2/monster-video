@@ -41,6 +41,17 @@ def details(request, customer_id):
                                         electronics_list = Electronics.objects.all()
                                         if(electronics_list):
                                             context['electronics_list'] = electronics_list
+                                        item_list = Item.objects.all()
+                                        if(item_list):
+                                            for item in item_list:
+                                                if item.installation == installation:
+                                                    warranty_list = Warranty.objects.all()
+                                                    if(warranty_list):
+                                                        for warranty in warranty_list:
+                                                            if(warranty.item == item):
+                                                                installation.total_cost += warranty.cost
+                                                    installation.total_labor += item.item_labor_cost
+                                                    installation.total_cost += (item.item_cost * item.item_quantity + installation.total_labor)
 
     return render(request, 'invoices/customer.html', context)
 
@@ -193,6 +204,78 @@ def delete_appraisal(request, customer_id):
         return redirect(f"/invoices/{customer_id}")
     else:
         return redirect(f"/invoices/{customer_id}")
+
+def delete_proposal(request, customer_id):
+    if request.method=="POST":
+        proposal_list = Proposal.objects.all()
+        if(proposal_list):
+            for proposal in proposal_list:
+                if(proposal.appraisal.customer_id == customer_id):
+                    proposal.delete()
+        return redirect(f"/invoices/{customer_id}")
+    else:
+        return redirect(f"/invoices/{customer_id}")
+
+def delete_installation(request, customer_id):
+    if request.method=="POST":
+        installation_list = Installation.objects.all()
+        if(installation_list):
+            for installation in installation_list:
+                if(installation.proposal.appraisal.customer_id == customer_id):
+                    installation.delete()
+        return redirect(f"/invoices/{customer_id}")
+    else:
+        return redirect(f"/invoices/{customer_id}")
+
+def delete_employee(request, customer_id):
+    if request.method=="POST":
+        employee_list = Employee.objects.all()
+        if(employee_list):
+            for employee in employee_list:
+                if(employee.installation.proposal.appraisal.customer_id == customer_id):
+                    employee.delete()
+        return redirect(f"/invoices/{customer_id}")
+    else:
+        return redirect(f"/invoices/{customer_id}")
+
+def delete_customer(request, customer_id):
+    if request.method=="POST":
+        customer = get_object_or_404(Customer, pk=customer_id)
+        customer.delete()
+        return redirect("/")
+    else:
+        return redirect("/")
+
+def delete_item(request, item_id):
+    if request.method=="POST":
+        item = get_object_or_404(Item, pk=item_id)
+        customer_id = item.installation.customer_id
+        item.delete()
+        return redirect(f"/invoices/{customer_id}")
+    else:
+        return redirect(f"/invoices/{customer_id}")
+
+def add_warranty(request, item_id):
+    if request.method=="POST":
+        item = get_object_or_404(Item, pk=item_id)
+        customer_id = item.installation.customer_id
+        warranty = Warranty()
+        warranty.item = item
+        warranty.title = request.POST.get('title')
+        warranty.start_date = request.POST.get('start_date')
+        warranty.mfg_warranty = request.POST.get('mfg_warranty')
+        warranty.cost = request.POST.get('cost')
+        warranty.save()
+        return redirect(f"/invoices/{customer_id}")
+    else:
+        return redirect(f"/invoices/{customer_id}")
+
+
+
+
+
+
+
 
 
 
