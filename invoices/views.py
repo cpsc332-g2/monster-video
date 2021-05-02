@@ -51,6 +51,7 @@ def details(request, customer_id):
                                                             if(warranty.item == item):
                                                                 installation.total_cost += warranty.cost
                                                     installation.total_labor += item.item_labor_cost
+                                                    installation.total_cost += installation.total_material
                                                     installation.total_cost += (item.item_cost * item.item_quantity + installation.total_labor)
 
     return render(request, 'invoices/customer.html', context)
