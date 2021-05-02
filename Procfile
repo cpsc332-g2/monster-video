@@ -1,1 +1,1 @@
-web: gunicorn monstervideo.wsgi --log-file -
+web: gunicorn monster-video.wsgi --log-file -
