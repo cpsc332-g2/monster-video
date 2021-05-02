@@ -1,0 +1,1 @@
+web: gunicorn monster-video.wsgi --log-file -
